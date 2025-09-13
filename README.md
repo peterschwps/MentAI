@@ -133,3 +133,4 @@ Please make sure to use this tool in a fair manner.
 ## Disclaimer
 
 MentAI is in no way affilliated with, authorized, maintained or endorsed by Menti or any of its affiliates or subsidiaries. It is an independent and unofficial project. Use it at your own risk.
+
