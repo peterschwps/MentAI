@@ -119,7 +119,7 @@ Please note that "Select Answer" questions can have multiple correct answers. Th
 ## What this tool can't do
 
 This tool **cannot** handle any slides on Menti that are not of the category "Quiz competitions". This includes slides such as "Word Cloud", "Guess the Number" and "Multiple Choice" which does not give players a score either.<br>
-This tool does not guarantee you a perfect score.<br>
+This tool does not guarantee you a perfect score.<br><br>
 
 <img src="https://raw.githubusercontent.com/peterschwps/MentAI/main/docs/images/SlideTypes.png" alt="Slide Types" width="300">
 
