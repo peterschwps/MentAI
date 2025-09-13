@@ -1,0 +1,46 @@
+name: Publishing to PyPI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-publish:
+    name: Build & Publish (PyPI)
+    runs-on: ubuntu-latest
+    environment: PyPI
+    concurrency:
+      group: pypi-publish
+      cancel-in-progress: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Build with uv
+        run: uv build
+
+      - name: Publish with uv
+        run: |
+          set +e
+          out="$(uv publish \
+            --token "${{ secrets.API_TOKEN }}" \
+            --check-url "https://pypi.org/simple/mentai-cli/" 2>&1)"
+          code=$?
+          echo "$out"
+          if echo "$out" | grep -Eqi 'This filename has already been used|File already exists'; then
+            echo "Already published on PyPI. Skipping."
+            exit 0
+          fi
+          exit $code
