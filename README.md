@@ -105,31 +105,31 @@ You can call `mentai --help` for an overview of all possible options:
 ╰─────────────────────────────────────────────────────────────────╯
 ```
 
-The default use is `mentai 12345678` with `12345678` being the participation code. You can also use the participation link to join a quiz: `https://www.menti.com/abcdefghijkl`.<br>
-All other flags can be configured using the `config.toml`. However, the value of the flags will be prioritized. This means if you have the name `MentAI` set in your `config.toml` but run `mentai 12345678 -n John` you will join the Menti quiz as `John`.
+The default usage is `mentai 12345678` with `12345678` being the participation code. You can also use the participation link to join a quiz: `https://www.menti.com/abcdefghijkl`.<br>
+All other flags can be configured using the `config.toml`. However, the command-line flags will take priority. This means if you have the name `MentAI` set in your `config.toml` but run `mentai 12345678 -n John`, you will join the Menti quiz as `John`.
 
 
 
 ## What this tool can do
 
-This tool can handle all slides for "Quiz competitions" which is "Select Answer" (single choice) and "Type Answer" (free text question).
-Please note that "Select Answer" questions can have multiple correct answers. The participant however can only ever pick one.
+This tool can handle all slides for "Quiz competitions", which are "Select Answer" (single choice) and "Type Answer" (free text question).
+Please note that "Select Answer" questions can have multiple correct answers. However, the participant can only pick one.
 
 
 ## What this tool can't do
 
-This tool **cannot** handle any slides on Menti that are not of the category "Quiz competitions". This includes slides such as "Word Cloud", "Guess the Number" and "Multiple Choice" which does not give players a score either.<br>
+This tool **cannot** handle any slides on Menti that are not of the category "Quiz competitions". This includes slides such as "Word Cloud", "Guess the Number" and "Multiple Choice", which do not give players a score either.<br>
 This tool does not guarantee you a perfect score.<br><br>
 
 <img src="https://raw.githubusercontent.com/peterschwps/MentAI/main/docs/images/SlideTypes.png" alt="Slide Types" width="300">
 
 ## When to use this tool
 
-This tool can only be used for Menti presentation that use "Quiz competitions" slides.<br>
-As a student / participant, you can use it to automatically solve quizes.<br>
-As a teacher / presenter, you can use it to prepare the quiz to be unsolvable for AI.<br>
+This tool can only be used for Menti presentations that use "Quiz competitions" slides.<br>
+As a student/participant, you can use it to automatically solve quizzes.<br>
+As a teacher/presenter, you can use it to prepare the quiz to be unsolvable for AI.<br>
 Please make sure to use this tool in a fair manner.
 
 ## Disclaimer
 
-MentAI is in no way affilliated with, authorized, maintained or endorsed by Menti or any of its affiliates or subsidiaries. It is an independent and unofficial project. Use it at your own risk.
+MentAI is in no way affiliated with, authorized, maintained, or endorsed by Menti or any of its affiliates or subsidiaries. It is an independent and unofficial project. Use it at your own risk.
