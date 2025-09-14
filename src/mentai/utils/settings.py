@@ -58,7 +58,6 @@ def notify_new_settings_file(is_corrupt: bool = False):
         toml.dump(SETTINGS, f)
     with contextlib.suppress(Exception):
         webbrowser.open(f"file://{SETTINGS_FILE.absolute()}")
-    webbrowser.open("path_to_file")
     logger.debug(
         "Please do not remove any keys and only fill your values in between "
         "the given quotes or as a numeric value."
