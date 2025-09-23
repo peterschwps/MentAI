@@ -404,11 +404,12 @@ class SocketIOClient:
                 # Edge case: Lowest "Seconds to answer" by Menti is 5s.
                 # If 5s to answer and offset is 4501ms --> submission after 4s.
                 #
-                # Configured offset is less than 500ms earlier than end time
-                if (start_time + 500) < end_time:
+                # Configured offset is less than or equal to 500ms earlier
+                # than end time:
+                if (start_time + offset) >= end_time - 500:
                     submission_delay = offset - 500
 
-                # Configured offset is at least 500ms earlier than end time
+                # Configured offset is at least 500ms earlier than end time:
                 else:
                     submission_delay = offset
 
