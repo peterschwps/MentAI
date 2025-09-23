@@ -3,11 +3,12 @@
 ![Python Versions](https://img.shields.io/badge/Python-3.10%20|%203.11%20|%203.12%20|%203.13-blue?logo=python&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-blue?logo=open-source-initiative&logoColor=white)
 
-
 # Ment**AI**
+
 An automated CLI tool using AI to solve [Menti](https://www.menti.com/) quiz questions.
 
 ### Table of Contents
+
 <ul style="padding: 0; padding-left:1em; margin: 0;">
 <li >Getting Started</li>
     <ul style=" padding-left: 2em; margin-bottom: 0">
@@ -29,15 +30,16 @@ An automated CLI tool using AI to solve [Menti](https://www.menti.com/) quiz que
     </ul>
 </ul>
 
-
-
 ## Installation
+
 ```bash
 pip3 install mentai-cli
 ```
 
 ## Usage
+
 ### First Steps
+
 After installing MentAI you need to run it once to create the config file. You can just provide a random 8-digit number:
 
 ```console
@@ -61,6 +63,7 @@ MINIMUM_DELAY_IN_MS = 500
 MAXIMUM_DELAY_IN_MS = 3000
 CONTEXT = "/Path/To/TextFile.txt"
 ```
+
 - SOLVER:
   - OPEN_AI_API_KEY: your OpenAI API key
   - OPEN_AI_MODEL: OpenAI model to use (you can find all models [here](https://platform.openai.com/docs/models))
@@ -70,11 +73,12 @@ CONTEXT = "/Path/To/TextFile.txt"
   - MAXIMUM_DELAY_IN_MS: longest time to wait before submitting an answer
   - CONTEXT: path to a plain text file with additional context to use when solving the quiz questions
 
-> DELAYS: This setup would generate a random delay from 500 to 3000 milliseconds for each answer submission. 
-
+> DELAYS: This setup would generate a random delay from 500 to 3000 milliseconds for each answer submission.
 
 ### Solving Quizzes
+
 You can call `mentai --help` for an overview of all possible options:
+
 ```console
 ➜ mentai --help
                                                                    
@@ -108,20 +112,17 @@ You can call `mentai --help` for an overview of all possible options:
 The default usage is `mentai 12345678` with `12345678` being the participation code. You can also use the participation link to join a quiz: `https://www.menti.com/abcdefghijkl`.<br>
 All other flags can be configured using the `config.toml`. However, the command-line flags will take priority. This means if you have the name `MentAI` set in your `config.toml` but run `mentai 12345678 -n John`, you will join the Menti quiz as `John`.
 
-
-
 ## What this tool can do
 
 This tool can handle all slides for "Quiz competitions", which are "Select Answer" (single choice) and "Type Answer" (free text question).
 Please note that "Select Answer" questions can have multiple correct answers. However, the participant can only pick one.
-
 
 ## What this tool can't do
 
 This tool **cannot** handle any slides on Menti that are not of the category "Quiz competitions". This includes slides such as "Word Cloud", "Guess the Number" and "Multiple Choice", which do not give players a score either.<br>
 This tool does not guarantee you a perfect score.<br><br>
 
-<img src="https://raw.githubusercontent.com/peterschwps/MentAI/main/docs/images/SlideTypes.png" alt="Slide Types" width="300">
+![Slide Types](https://raw.githubusercontent.com/peterschwps/MentAI/main/docs/images/SlideTypes.png)
 
 ## When to use this tool
 
