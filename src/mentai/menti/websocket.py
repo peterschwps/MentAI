@@ -216,6 +216,71 @@ class SocketIOClient:
             )
         self._send(msg)
 
+    def _schedule_submission(
+        self,
+        current_question_key: str,
+        start_time_ms: int,
+        submission_delay_ms: int,
+    ) -> None:
+        """
+        Schedules the vote submission off the WebSocket callback thread to
+        avoid blocking ping/pong handling. Otherwise the sleep() call can block
+        the ping/pong handling and result in the connection being closed.
+
+        Args:
+            current_question_key (str): Question public key.
+            start_time_ms (int): Quiz start timestamp in ms.
+            submission_delay_ms (int): Delay after start to submit vote.
+        """
+
+        def submit_when_due():
+
+            # Sleep until one second before start time
+            delay = (start_time_ms - round(time() * 1000) - 1000) / 1000
+            sleep(max(0, delay))
+
+            # Interesting findings (Aug. 30, 2025):
+            # 1.: The voteTimestamp is used to determine the time
+            #     of the answer submission.
+            # 2.: You can submit an answer late, as long as it is still
+            #     live. If the voteTimestamp is set accordingly you can
+            #     still get a perfect score.
+            # 3.: You can submit an answer while the countdown is running,
+            #     if the voteTimestamp is set correctly.
+            # 4.: Open questions need a voteTimestamp = startAt + 1ms.
+            #     Otherwise a correct answer will be marked false.
+            #
+            # Wait until question starts
+            while not round(time() * 1000) >= start_time_ms:
+                pass
+
+            # Wait until submission time
+            sleep(max(0, submission_delay_ms) / 1000)
+
+            # Submit answer with Ack-callback for retry handling (unverändert)
+            self.send_payload(
+                event="player_vote",
+                data=self.voting_data[current_question_key],
+                expect_ack=True,
+                ack_cb=self.send_payload,
+                cb_args={
+                    "event": "player_vote",
+                    "data": self.voting_data[current_question_key],
+                    "expect_ack": True,
+                },
+            )
+
+            logger.warning(
+                "Submitting answer: %s.",
+                list(
+                    self.question_keys_answers[current_question_key].values()
+                )[0],
+            )
+
+        # Run scheduling in separate daemon thread to not block callbacks
+        t = threading.Thread(target=submit_when_due, daemon=True)
+        t.start()
+
     # ----- WebSocket-Client Callbacks -----
     def _on_open(self, *_: Any):
         """
@@ -419,48 +484,14 @@ class SocketIOClient:
                         "Calculated submission time: %dms.", submission_delay
                     )
 
-                # Sleep until one second before start time
-                sleep((start_time - round(time() * 1000) - 1000) / 1000)
-
-                # Interesting findings (Aug. 30, 2025):
-                # 1.: The voteTimestamp is used to determine the time
-                #     of the answer submission.
-                # 2.: You can submit an answer late, as long as it is still
-                #     live. If the voteTimestamp is set accordingly you can
-                #     still get a perfect score.
-                # 3.: You can submit an answer while the countdown is running,
-                #     if the voteTimestamp is set correctly.
-                # 4.: Open questions need a voteTimestamp = startAt + 1ms.
-                #     Otherwise a correct answer will be marked false.
-                #
-                # Wait until question starts
-                while not round(time() * 1000) >= start_time:
-                    pass
-                else:
-                    # Wait until submission time
-                    sleep(submission_delay / 1000)
-
-                    # Submit answer and callback function for error handling
-                    # (e.g. resubmitting vote)
-                    self.send_payload(
-                        event="player_vote",
-                        data=self.voting_data[current_question_key],
-                        expect_ack=True,
-                        ack_cb=self.send_payload,
-                        cb_args={
-                            "event": "player_vote",
-                            "data": self.voting_data[current_question_key],
-                            "expect_ack": True,
-                        },
-                    )
-                    logger.warning(
-                        "Submitting answer: %s.",
-                        list(
-                            self.question_keys_answers[
-                                current_question_key
-                            ].values()
-                        )[0],
-                    )
+                # Schedule non-blocking submission to keep heartbeat responsive
+                if dev_logger:
+                    dev_logger.debug("Scheduling separate submission thread.")
+                self._schedule_submission(
+                    current_question_key=current_question_key,
+                    start_time_ms=start_time,
+                    submission_delay_ms=submission_delay,
+                )
 
             # Question finished
             elif event == "quiz_ended":
@@ -500,8 +531,8 @@ class SocketIOClient:
                 time_elapsed = args[0]["gameStateData"].get("elapsedTime")
                 if time_elapsed and isinstance(time_elapsed, int | float):
                     logger.info(
-                        "Submitted answer after %s seconds.",
-                        round(time_elapsed, 2),
+                        "Submitted answer after %.2f seconds.",
+                        time_elapsed,
                     )
                 else:
                     logger.info("Submitted answer.")
