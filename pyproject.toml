@@ -2,7 +2,7 @@
 
 [project]
 name = "mentai-cli"
-version = "0.1.4"
+version = "0.1.5"
 description = "An automated CLI tool using AI to solve Menti quiz questions."
 authors = [
     { name = "Peter Schwips" }
