@@ -12,8 +12,8 @@ An automated CLI tool using AI to solve [Menti](https://www.menti.com/) quiz que
 <ul style="padding: 0; padding-left:1em; margin: 0;">
 <li >Getting Started</li>
     <ul style=" padding-left: 2em; margin-bottom: 0">
-        <li><a href="#todo-installation">Installation</a></li>
-        <li><a href="#todo-usage">Usage</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#usage">Usage</a></li>
     </ul>
 <li>Functionality</li>
     <ul style=" padding-left: 2em; margin-bottom: 0">
