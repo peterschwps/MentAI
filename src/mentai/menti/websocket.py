@@ -234,7 +234,6 @@ class SocketIOClient:
         """
 
         def submit_when_due():
-
             # Sleep until one second before start time
             delay = (start_time_ms - round(time() * 1000) - 1000) / 1000
             sleep(max(0, delay))
