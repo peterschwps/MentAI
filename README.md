@@ -5,7 +5,7 @@
 
 # Ment**AI**
 
-An automated CLI tool using AI to solve [Menti](https://www.menti.com/) quiz questions.
+An automated CLI tool using AI to solve [Mentimeter](https://www.menti.com/) ("Menti") quiz questions.
 
 ### Table of Contents
 
