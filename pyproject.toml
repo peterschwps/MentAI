@@ -1,8 +1,8 @@
 # ----- Project Info -----
 
 [project]
-name = "mentai-cli"
-version = "0.1.5"
+name = "MentAI-CLI"
+version = "0.1.6"
 description = "An automated CLI tool using AI to solve Menti quiz questions."
 authors = [
     { name = "Peter Schwips" }
